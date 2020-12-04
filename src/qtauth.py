@@ -26,6 +26,8 @@ def qt_authentication(secret_map):
     post_json = post.json()
     update_refresh_token(post_json["refresh_token"])
     add_to_secrets('qt_access', post_json["access_token"])
+    add_to_secrets('qt_server', post_json["api_server"])
+    print('Authenticated QuestTrade! \U0001F603 \n')
 
 
 # check if refresh tokens exists, if doesn't then create directory and file.
