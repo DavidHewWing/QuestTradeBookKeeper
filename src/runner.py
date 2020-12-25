@@ -1,6 +1,7 @@
-from src import qtauth
-from src import gsauth
+from src.auth import gsauth, qtauth
+from src import qt_controller
 from src import gscontroller
+from src import master_controller
 from settings import get_secrets, secret_map
 
 # Authentication
@@ -9,6 +10,4 @@ qtauth.qt_authentication(secret_map)
 gsauth.gs_auth()
 print('Authentication Complete! \U0001F680 \n')
 
-# Get Spreadsheet Data
-gscontroller.get_spreadsheet_id()
-gscontroller.sample(secret_map['gs_service'], secret_map['spreadsheet_id'])
+master_controller.run()

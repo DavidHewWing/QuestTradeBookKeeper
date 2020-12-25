@@ -1,17 +1,14 @@
 from __future__ import print_function
 from settings import add_to_secrets
 import os.path
+import gspread
 
 
-def sample(gs_service, spreadsheet_id):
-    sheet = gs_service.spreadsheets()
-    result = sheet.values().get(spreadsheetId=spreadsheet_id, range='Bought vs. Market!A:B').execute()
-    values = result.get('values', [])
-
-    if not values:
-        print('No data found.')
-    else:
-        print(values)
+def get_headers(spreadsheet_id):
+    gc = gspread.service_account(filename='./src/tokens/credentials.json')
+    sheet = gc.open_by_key(spreadsheet_id)
+    worksheet = sheet.get_worksheet(0)
+    return worksheet.row_values(1)
 
 
 def get_spreadsheet_id():
