@@ -1,6 +1,4 @@
 from src.auth import gsauth, qtauth
-from src import qt_controller
-from src import gscontroller
 from src import master_controller
 from settings import get_secrets, secret_map
 

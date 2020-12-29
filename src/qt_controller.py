@@ -56,9 +56,27 @@ def get_positions(account, simple=False):
         for position in get_json['positions']:
             position_info[position['symbol']] = {
                 'currentValue': position['currentMarketValue'],
+                'entryPrice': position['averageEntryPrice'],
+                'totalEntryPrice': position['averageEntryPrice'] * position['openQuantity'],
             }
             total += position['currentMarketValue']
         return position_info, total
     else:
         return get_json['positions'], None
 
+
+def get_balances(account):
+    print('Fetching QuestTrade Balance Data... \U0001F4BC \n')
+    account_number = account["number"]
+    endpoint = f'v1/accounts/{account_number}/balances'
+    url = secret_map['qt_server'] + endpoint
+    headers = {
+        'content-type': 'application/json',
+        'Authorization': f'Bearer {secret_map["qt_access"]}'
+    }
+    get = requests.get(url, headers=headers)
+    get_json = get.json()
+    for balance in get_json['perCurrencyBalances']:
+        if balance['currency'] == 'USD':
+            return balance
+    return None
