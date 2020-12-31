@@ -66,7 +66,7 @@ def get_positions(account, simple=False):
 
 
 def get_balances(account):
-    print('Fetching QuestTrade Balance Data... \U0001F4BC \n')
+    print('Fetching QuestTrade Balance Data... \U0001F4BC')
     account_number = account["number"]
     endpoint = f'v1/accounts/{account_number}/balances'
     url = secret_map['qt_server'] + endpoint
@@ -78,5 +78,6 @@ def get_balances(account):
     get_json = get.json()
     for balance in get_json['perCurrencyBalances']:
         if balance['currency'] == 'USD':
+            print('Retrieved Balance Data... \U0001F40E \n')
             return balance
     return None

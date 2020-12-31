@@ -52,7 +52,9 @@ def get_header_values(total, positions, balance):
 
 
 def append_row(spreadsheet_id, values):
+    print('Appending Position Data in Google Sheets... \U0001F44D')
     gc = gspread.service_account(filename='./src/tokens/credentials.json')
     sheet = gc.open_by_key(spreadsheet_id)
     worksheet = sheet.get_worksheet(0)
     worksheet.append_row(values, 'USER_ENTERED')
+    print('Finished! \U0001F496 \n')
