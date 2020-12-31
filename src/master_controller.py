@@ -1,5 +1,5 @@
-from src import qt_controller
-from src import gscontroller
+import qt_controller
+import gscontroller
 
 
 def run():
