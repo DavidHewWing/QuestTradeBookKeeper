@@ -2,7 +2,7 @@ from __future__ import print_function
 from datetime import datetime
 import os.path
 import gspread
-from settings import secret_map, add_to_secrets
+from .settings import secret_map, add_to_secrets
 
 
 def get_headers(spreadsheet_id):

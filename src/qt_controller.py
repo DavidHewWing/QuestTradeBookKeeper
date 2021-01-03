@@ -1,24 +1,13 @@
 import requests
 import os
 import pathlib
-from settings import secret_map, add_to_secrets
+from .settings import secret_map, add_to_secrets
 
 
-def get_user_account():
-    if os.path.isfile('./src/tokens/qt_account_number.txt'):
-        print("Existing Account Number Located... \U0001F44D")
-        account_file = open('./src/tokens/qt_account_number.txt', 'r')
-        account_number = account_file.readline()
-    else:
-        account_number = input("Enter the account number... \U0001F3E6 \n")
-        pathlib.Path('./src/tokens').mkdir(parents=True, exist_ok=True)
-        account_file = open('./src/tokens/qt_account_number.txt', 'w')
-        account_file.write(account_number)
-        account_file.close()
-
+def get_user_account(account_name):
     accounts = get_accounts()
     for account in accounts:
-        if account_number == account['number']:
+        if account_name == account['number']:
             add_to_secrets('curr_account', account)
             return account
 
@@ -38,9 +27,8 @@ def get_accounts():
     return get_json['accounts']
 
 
-def get_positions(account, simple=False):
+def get_positions(account_number, simple=False):
     print('Fetching QuestTrade Position Data... \U0001F4C8 \n')
-    account_number = account["number"]
     endpoint = f'v1/accounts/{account_number}/positions'
     url = secret_map['qt_server'] + endpoint
     headers = {
@@ -65,9 +53,8 @@ def get_positions(account, simple=False):
         return get_json['positions'], None
 
 
-def get_balances(account):
+def get_balances(account_number):
     print('Fetching QuestTrade Balance Data... \U0001F4BC')
-    account_number = account["number"]
     endpoint = f'v1/accounts/{account_number}/balances'
     url = secret_map['qt_server'] + endpoint
     headers = {

@@ -1,25 +1,21 @@
-import qt_controller
-import gscontroller
+from . import qt_controller
+from . import gscontroller
 
 
-def run():
+def run(account):
     # questtrade data
-    account = qt_controller.get_user_account()
-    positions, total = qt_controller.get_positions(account, simple=True)
-    balance = qt_controller.get_balances(account)
+    account_name = account['qt_account_number']
+    account_info = qt_controller.get_user_account(account_name)
+    positions, total = qt_controller.get_positions(account_name, simple=True)
+    balance = qt_controller.get_balances(account_name)
 
     # googlesheets data
-    uninvested_cash = get_uninvested_from_txt()
-    spreadsheet_id = gscontroller.get_spreadsheet_id()
+    spreadsheet_id = account['spreadsheet_id']
 
     # update the overall data spreadsheet
     header_values = gscontroller.get_header_values(total, positions, balance)
-    values = [header_values['Date'], float(uninvested_cash), header_values['Uninvested'], header_values['Buy-In Price'], header_values['Market Value'], header_values['Increase']]
+    values = [header_values['Date'], account['cash_invested'], header_values['Uninvested'], header_values['Buy-In Price'], header_values['Market Value'], header_values['Increase']]
     gscontroller.append_row(spreadsheet_id, values)
 
 
-def get_uninvested_from_txt():
-    cash_file = open('./src/tokens/cash_invested.txt', 'r')
-    cash = cash_file.readline()
-    return cash
 
