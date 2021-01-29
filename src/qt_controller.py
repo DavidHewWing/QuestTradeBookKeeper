@@ -45,7 +45,7 @@ def get_positions(account_number, simple=False):
             position_info[position['symbol']] = {
                 'currentValue': position['currentMarketValue'],
                 'entryPrice': position['averageEntryPrice'],
-                'totalEntryPrice': position['averageEntryPrice'] * position['openQuantity'],
+                'totalEntryPrice': position['totalCost'],
             }
             total += position['currentMarketValue']
         return position_info, total
